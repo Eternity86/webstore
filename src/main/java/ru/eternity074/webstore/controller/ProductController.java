@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
@@ -21,9 +22,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import ru.eternity074.webstore.entity.Product;
 import ru.eternity074.webstore.exception.NoProductsFoundUnderCategoryException;
+import ru.eternity074.webstore.exception.ProductNotFoundException;
 import ru.eternity074.webstore.service.ProductService;
 
 @Controller
@@ -105,7 +108,7 @@ public class ProductController {
 		String fileSeparator = System.getProperty("file.separator");
 		String[] suppressedFields = result.getSuppressedFields();
 		String rootDirectory = request.getSession().getServletContext().getRealPath(fileSeparator);
-		
+
 		if (suppressedFields.length > 0) {
 			throw new RuntimeException("Attempting to bind disallowed fields: "
 					+ StringUtils.arrayToCommaDelimitedString(suppressedFields));
@@ -121,7 +124,7 @@ public class ProductController {
 				throw new RuntimeException("Product Image saving failed", e);
 			}
 		}
-		
+
 		MultipartFile productManual = newProduct.getProductManual();
 		if (productManual != null && !productManual.isEmpty()) {
 			try {
@@ -150,5 +153,16 @@ public class ProductController {
 //		CustomDateEditor orderDateEditor = new CustomDateEditor(dateFormat, true);
 //		binder.registerCustomEditor(Date.class, orderDateEditor);
 //	}
+
+	@ExceptionHandler(ProductNotFoundException.class)
+	public ModelAndView handleError(HttpServletRequest req, ProductNotFoundException exception) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("invalidProductId", exception.getProductId());
+		mav.addObject("exception", exception);
+		mav.addObject("url", req.getRequestURL() + "?" + req.getQueryString());
+		mav.setViewName("productNotFound");
+
+		return mav;
+	}
 
 }

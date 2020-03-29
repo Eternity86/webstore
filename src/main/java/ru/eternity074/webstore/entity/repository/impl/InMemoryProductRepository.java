@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import ru.eternity074.webstore.entity.Product;
 import ru.eternity074.webstore.entity.repository.ProductRepository;
+import ru.eternity074.webstore.exception.ProductNotFoundException;
 
 @Repository
 public class InMemoryProductRepository implements ProductRepository {
@@ -80,37 +82,31 @@ public class InMemoryProductRepository implements ProductRepository {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", productID);
 
-		return jdbcTemplate.queryForObject(SQL, params, new ProductMapper());
+		try {
+			return jdbcTemplate.queryForObject(SQL, params, new ProductMapper());
+		} catch (DataAccessException e) {
+			throw new ProductNotFoundException(productID);
+		}
 	}
 
 	@Override
 	public void addProduct(Product product) {
-		String SQL = "INSERT INTO PRODUCTS ("
-				+ "ID, "
-                + "NAME,"
-                + "DESCRIPTION,"
-                + "UNIT_PRICE,"
-                + "MANUFACTURER,"
-                + "CATEGORY,"
-                + "CONDITION,"
-                + "UNITS_IN_STOCK,"
-                + "UNITS_IN_ORDER,"
-                + "DISCONTINUED) "
-                + "VALUES (:id, :name, :desc, :price, "
-                + ":manufacturer, :category, :condition, "
-                + ":inStock, :inOrder, :discontinued)";
-          Map<String, Object> params = new HashMap<>();
-          params.put("id", product.getProductId());
-          params.put("name", product.getName());
-          params.put("desc", product.getDescription());
-          params.put("price", product.getUnitPrice());
-          params.put("manufacturer", product.getManufacturer());
-          params.put("category", product.getCategory());
-          params.put("condition", product.getCondition());
-          params.put("inStock", product.getUnitsInStock());
-          params.put("inOrder", product.getUnitsInOrder());
-          params.put("discontinued", product.isDiscontinued());
-          jdbcTemplate.update(SQL, params);
+		String SQL = "INSERT INTO PRODUCTS (" + "ID, " + "NAME," + "DESCRIPTION," + "UNIT_PRICE," + "MANUFACTURER,"
+				+ "CATEGORY," + "CONDITION," + "UNITS_IN_STOCK," + "UNITS_IN_ORDER," + "DISCONTINUED) "
+				+ "VALUES (:id, :name, :desc, :price, " + ":manufacturer, :category, :condition, "
+				+ ":inStock, :inOrder, :discontinued)";
+		Map<String, Object> params = new HashMap<>();
+		params.put("id", product.getProductId());
+		params.put("name", product.getName());
+		params.put("desc", product.getDescription());
+		params.put("price", product.getUnitPrice());
+		params.put("manufacturer", product.getManufacturer());
+		params.put("category", product.getCategory());
+		params.put("condition", product.getCondition());
+		params.put("inStock", product.getUnitsInStock());
+		params.put("inOrder", product.getUnitsInOrder());
+		params.put("discontinued", product.isDiscontinued());
+		jdbcTemplate.update(SQL, params);
 	}
 
 }
