@@ -99,13 +99,14 @@ public class ProductController {
 			HttpServletRequest request) {
 		String fileSeparator = System.getProperty("file.separator");
 		String[] suppressedFields = result.getSuppressedFields();
+		String rootDirectory = request.getSession().getServletContext().getRealPath(fileSeparator);
+		
 		if (suppressedFields.length > 0) {
 			throw new RuntimeException("Attempting to bind disallowed fields: "
 					+ StringUtils.arrayToCommaDelimitedString(suppressedFields));
 		}
 
 		MultipartFile productImage = newProduct.getProductImage();
-		String rootDirectory = request.getSession().getServletContext().getRealPath(fileSeparator);
 		if (productImage != null && !productImage.isEmpty()) {
 			try {
 				File file = new File(rootDirectory + fileSeparator + "resources" + fileSeparator + "images"
@@ -113,6 +114,17 @@ public class ProductController {
 				productImage.transferTo(file);
 			} catch (Exception e) {
 				throw new RuntimeException("Product Image saving failed", e);
+			}
+		}
+		
+		MultipartFile productManual = newProduct.getProductManual();
+		if (productManual != null && !productManual.isEmpty()) {
+			try {
+				File file = new File(rootDirectory + fileSeparator + "resources" + fileSeparator + "pdfs"
+						+ fileSeparator + newProduct.getProductId() + ".pdf");
+				productManual.transferTo(file);
+			} catch (Exception e) {
+				throw new RuntimeException("Product Manual saving failed", e);
 			}
 		}
 
@@ -124,7 +136,7 @@ public class ProductController {
 	@InitBinder
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category",
-				"unitsInStock", "condition", "productImage");
+				"unitsInStock", "condition", "productImage", "productManual");
 	}
 
 //	@InitBinder

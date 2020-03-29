@@ -42,6 +42,10 @@
 					${product.category}
 				</p>
 				<p>
+					<a href="<c:url value="/pdf/${product.productId}.pdf"></c:url>"><strong><spring:message
+								code="product.form.manual" /></strong></a>
+				</p>
+				<p>
 					<strong><spring:message code="product.form.availInStock" /></strong>
 					: ${product.unitsInStock}
 				</p>
