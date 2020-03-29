@@ -10,14 +10,18 @@
         charset=UTF-8">
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-<title>Products</title>
+<title><spring:message code="products.title" /></title>
 </head>
 <body>
 	<section>
 		<div class="jumbotron">
 			<div class="container">
-				<h1>Products</h1>
-				<p>All the available products in our store</p>
+				<h1>
+					<spring:message code="products.jumbotron.h1" />
+				</h1>
+				<p>
+					<spring:message code="products.jumbotron.p" />
+				</p>
 			</div>
 		</div>
 	</section>
@@ -35,7 +39,8 @@
 								<a
 									href=" <spring:url value="/market/product?id=${product.productId}" /> "
 									class="btn btn-primary"> <span
-									class="glyphicon-info-sign glyphicon" /></span> Details
+									class="glyphicon-info-sign glyphicon" /></span> <spring:message
+										code="products.form.details.button" />
 								</a>
 							</p>
 						</div>
