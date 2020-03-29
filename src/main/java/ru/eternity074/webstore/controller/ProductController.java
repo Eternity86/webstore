@@ -8,10 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.MatrixVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ru.eternity074.webstore.entity.Product;
 import ru.eternity074.webstore.service.ProductService;
 
 @Controller
@@ -60,14 +63,34 @@ public class ProductController {
 	@GetMapping("/product")
 	public String getProductById(@RequestParam("id") String productId, Model model) {
 		model.addAttribute("product", productService.getProductById(productId));
-		
+
 		return "product";
 	}
-	
+
 ////	http://localhost:8080/webstore/product?category=laptop&price=700
 //	@GetMapping("/products")
 //	public String getProducts(@RequestParam String category, @RequestParam String price) {
 //		return null;
 //	}
+
+//	@GetMapping(value = "/products/add")
+//	public String getAddNewProductForm(Model model) {
+//		Product newProduct = new Product();
+//		model.addAttribute("newProduct", newProduct);
+//
+//		return "addProduct";
+//	}
+	
+	@GetMapping(value = "/products/add")
+	public String getAddNewProductForm(@ModelAttribute("newProduct") Product newProduct) {
+		return "addProduct";
+	}
+
+	@PostMapping("/products/add")
+	public String processAddNewProductForm(@ModelAttribute("newProduct") Product newProduct) {
+		productService.addProduct(newProduct);
+		
+		return "redirect:/market/products";
+	}
 
 }
