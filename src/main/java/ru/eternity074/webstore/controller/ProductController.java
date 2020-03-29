@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import ru.eternity074.webstore.service.ProductService;
 
 @Controller
+@RequestMapping("market")
 public class ProductController {
 
 	@Autowired
@@ -24,7 +26,7 @@ public class ProductController {
 	public String updateStock(Model model) {
 		productService.updateAllStock();
 
-		return "redirect:/products";
+		return "redirect:/market/products";
 	}
 
 }
