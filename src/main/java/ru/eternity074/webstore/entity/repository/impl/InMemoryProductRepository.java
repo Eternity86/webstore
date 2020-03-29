@@ -30,7 +30,7 @@ public class InMemoryProductRepository implements ProductRepository {
 
 	@Override
 	public void updateStock(String productId, long noOfUnits) {
-		String SQL = "UPDATE PRODUCTS SET UNITS_IN_STOCK =:unitsInStock WHERE ID = :id";
+		String SQL = "UPDATE PRODUCTS SET UNITS_IN_STOCK =:unitsInStock WHERE ID =:id";
 		Map<String, Object> params = new HashMap<>();
 		params.put("unitsInStock", noOfUnits);
 		params.put("id", productId);
@@ -72,6 +72,15 @@ public class InMemoryProductRepository implements ProductRepository {
 		String SQL = "SELECT * FROM PRODUCTS WHERE CATEGORY IN (:categories ) AND MANUFACTURER IN ( :brands)";
 
 		return jdbcTemplate.query(SQL, filterParams, new ProductMapper());
+	}
+
+	@Override
+	public Product getProductById(String productID) {
+		String SQL = "SELECT * FROM PRODUCTS WHERE ID =:id";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", productID);
+
+		return jdbcTemplate.queryForObject(SQL, params, new ProductMapper());
 	}
 
 }

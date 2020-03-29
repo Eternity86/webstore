@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ru.eternity074.webstore.service.ProductService;
 
@@ -53,6 +54,19 @@ public class ProductController {
 //	@GetMapping("/products/filter/{params}/{specification}")
 //	public String filter(@MatrixVariable(pathVar = "params") Map<String, List<String>> criteriaFilter,
 //			@MatrixVariable(pathVar = "specification") Map<String, List<String>> specFilter, Model model) {
+//		return null;
+//	}
+
+	@GetMapping("/product")
+	public String getProductById(@RequestParam("id") String productId, Model model) {
+		model.addAttribute("product", productService.getProductById(productId));
+		
+		return "product";
+	}
+	
+////	http://localhost:8080/webstore/product?category=laptop&price=700
+//	@GetMapping("/products")
+//	public String getProducts(@RequestParam String category, @RequestParam String price) {
 //		return null;
 //	}
 
