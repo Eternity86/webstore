@@ -3,8 +3,14 @@ package ru.eternity074.webstore.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@XmlRootElement
 public class Product implements Serializable {
 
 	/**
@@ -22,7 +28,9 @@ public class Product implements Serializable {
 	private long unitsInOrder;
 	private boolean discontinued;
 	private String condition;
+	@JsonIgnore
 	private MultipartFile productImage;
+	@JsonIgnore
 	private MultipartFile productManual;
 
 	public Product() {
@@ -117,6 +125,7 @@ public class Product implements Serializable {
 		this.condition = condition;
 	}
 
+	@XmlTransient
 	public MultipartFile getProductImage() {
 		return productImage;
 	}
@@ -125,6 +134,7 @@ public class Product implements Serializable {
 		this.productImage = productImage;
 	}
 
+	@XmlTransient
 	public MultipartFile getProductManual() {
 		return productManual;
 	}
