@@ -5,20 +5,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import ru.eternity074.webstore.entity.repository.ProductRepository;
 import ru.eternity074.webstore.service.ProductService;
 
 @Controller
 public class ProductController {
 
 	@Autowired
-	private ProductRepository productRepository;
-	@Autowired
 	private ProductService productService;
 
 	@GetMapping("/products")
 	public String list(Model model) {
-		model.addAttribute("products", productRepository.getAllProducts());
+		model.addAttribute("products", productService.getAllProducts());
 
 		return "products";
 	}
