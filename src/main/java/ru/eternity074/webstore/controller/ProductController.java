@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ru.eternity074.webstore.entity.Product;
+import ru.eternity074.webstore.exception.NoProductsFoundUnderCategoryException;
 import ru.eternity074.webstore.service.ProductService;
 
 @Controller
@@ -48,7 +49,11 @@ public class ProductController {
 
 	@GetMapping("/products/{category}")
 	public String getProductsByCategory(Model model, @PathVariable("category") String productCategory) {
-		model.addAttribute("products", productService.getProductsByCategory(productCategory));
+		List<Product> products = productService.getProductsByCategory(productCategory);
+		if (null == products || products.isEmpty()) {
+			throw new NoProductsFoundUnderCategoryException();
+		}
+		model.addAttribute("products", products);
 
 		return "products";
 	}
