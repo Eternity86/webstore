@@ -1,7 +1,10 @@
 package ru.eternity074.webstore.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import ru.eternity074.webstore.entity.Product;
 import ru.eternity074.webstore.service.ProductService;
@@ -91,12 +95,27 @@ public class ProductController {
 	}
 
 	@PostMapping("/products/add")
-	public String processAddNewProductForm(@ModelAttribute("newProduct") Product newProduct, BindingResult result) {
+	public String processAddNewProductForm(@ModelAttribute("newProduct") Product newProduct, BindingResult result,
+			HttpServletRequest request) {
+		String fileSeparator = System.getProperty("file.separator");
 		String[] suppressedFields = result.getSuppressedFields();
 		if (suppressedFields.length > 0) {
 			throw new RuntimeException("Attempting to bind disallowed fields: "
 					+ StringUtils.arrayToCommaDelimitedString(suppressedFields));
 		}
+
+		MultipartFile productImage = newProduct.getProductImage();
+		String rootDirectory = request.getSession().getServletContext().getRealPath(fileSeparator);
+		if (productImage != null && !productImage.isEmpty()) {
+			try {
+				File file = new File(rootDirectory + fileSeparator + "resources" + fileSeparator + "images"
+						+ fileSeparator + newProduct.getProductId() + ".png");
+				productImage.transferTo(file);
+			} catch (Exception e) {
+				throw new RuntimeException("Product Image saving failed", e);
+			}
+		}
+
 		productService.addProduct(newProduct);
 
 		return "redirect:/market/products";
@@ -105,9 +124,9 @@ public class ProductController {
 	@InitBinder
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category",
-				"unitsInStock", "condition");
+				"unitsInStock", "condition", "productImage");
 	}
-	
+
 //	@InitBinder
 //	public void initialiseBinder(WebDataBinder binder) {
 //		DateFormat dateFormat = new SimpleDateFormat("MMM d, YYYY");

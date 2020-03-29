@@ -3,6 +3,7 @@ package ru.eternity074.webstore.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -21,12 +22,12 @@ public class WebAppConfig implements WebMvcConfigurer {
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 	}
 
-	//  enable matrix variable support
+	// enable matrix variable support
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		UrlPathHelper urlPathHelper = new UrlPathHelper();
 		urlPathHelper.setRemoveSemicolonContent(false);
-		
+
 		configurer.setUrlPathHelper(urlPathHelper);
 	}
 
@@ -39,7 +40,16 @@ public class WebAppConfig implements WebMvcConfigurer {
 
 		return resolver;
 	}
-	
+
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		resolver.setDefaultEncoding("utf-8");
+		resolver.setMaxUploadSize(10_240_000);
+		
+		return resolver;
+	}
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/img/**").addResourceLocations("/resources/images/");

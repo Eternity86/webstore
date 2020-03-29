@@ -26,7 +26,7 @@
 	</section>
 	<section class="container">
 		<form:form method="POST" modelAttribute="newProduct"
-			class="form-horizontal">
+			class="form-horizontal" enctype="multipart/form-data">
 			<fieldset>
 				<legend>
 					<spring:message code="addProduct.form.legend.fieldset" />
@@ -87,7 +87,7 @@
 					</div>
 				</div> --%>
 				<div class="form-group">
-					<label class="control-label col-lg-2" for="description"><spring:message
+					<label class="control-label col-lg-2 col-lg-2" for="description"><spring:message
 							code="addProduct.form.description.label" /></label>
 					<div class="col-lg-10">
 						<form:textarea id="description" path="description" rows="2" />
@@ -100,7 +100,7 @@
 					</div>
 				</div> --%>
 				<div class="form-group">
-					<label class="control-label col-lg-2" for="condition"><spring:message
+					<label class="control-label col-lg-2 col-lg-2" for="condition"><spring:message
 							code="addProduct.form.condition.label" /></label>
 					<div class="col-lg-10">
 						<form:radiobutton path="condition" value="New" />
@@ -109,6 +109,15 @@
 						<spring:message code="addProduct.form.old.radiobutton" />
 						<form:radiobutton path="condition" value="Refurbished" />
 						<spring:message code="addProduct.form.refurbished.radiobutton" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="productImage"> <spring:message
+							code="addProduct.form.productImage.label" />
+					</label>
+					<div class="col-lg-10">
+						<form:input id="productImage" path="productImage" type="file"
+							class="form:input-large" />
 					</div>
 				</div>
 				<div class="form-group">
