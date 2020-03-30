@@ -8,6 +8,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<%-- <script src="/webstore/js/angular-1.7.9/angular.js"></script>
+<script src="/webstore/js/angular-1.7.9/angular-route.js"></script>
+<script src="/webstore/js/angular-1.7.9/angular-resource.js"></script> --%>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-resource.js"></script>
+<script src="/webstore/js/controllers.js"></script>
 <title><spring:message code="product.title" /></title>
 </head>
 <body>
@@ -27,7 +37,7 @@
 			</div>
 		</div>
 	</section>
-	<section class="container">
+	<section class="container" data-ng-app="cartApp">
 		<div class="row">
 			<div class="col-md-5">
 				<img src="<c:url value="/img/${product.productId}.png"></c:url>"
@@ -59,14 +69,17 @@
 				<h4>${product.unitPrice}
 					<spring:message code="product.form.currency" />
 				</h4>
-				<p>
+				<p data-ng-controller="cartCtrl">
 					<a href="<spring:url value="/market/products" />"
 						class="btn btn-default"> <span
 						class="glyphicon-hand-left glyphicon"></span> <spring:message
 							code="product.form.back.button" />
-					</a> <a href="#" class="btn btn-warning btn-large"> <span
+					</a> <a href="#" class="btn btn-warning btn-large"
+						data-ng-click="addToCart('${product.productId}')"> <span
 						class="glyphicon-shopping-cart glyphicon"> </span> <spring:message
 							code="product.form.order.button" />
+					</a> <a href="<spring:url value="/cart" />" class="btn btn-default">
+						<span class="glyphicon-hand-right glyphicon"></span> View Cart
 					</a>
 				</p>
 			</div>
