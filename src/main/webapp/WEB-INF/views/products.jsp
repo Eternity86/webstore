@@ -14,6 +14,12 @@
 </head>
 <body>
 	<section>
+		<div class="pull-right" style="padding-right: 50px">
+			<a href="?language=ru">Русский</a>|<a href="?language=en">English</a>|<a
+				href="?language=nl">Nederlands</a>
+		</div>
+	</section>
+	<section>
 		<div class="jumbotron">
 			<div class="container">
 				<h1>

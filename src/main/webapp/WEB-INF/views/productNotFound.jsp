@@ -11,11 +11,19 @@
 <title>Error</title>
 </head>
 <body>
+	<%-- <section>
+		<div class="pull-right" style="padding-right: 50px">
+			<a href="?language=ru">Русский</a>|<a href="?language=en">English</a>|<a
+				href="?language=nl">Nederlands</a>
+		</div>
+	</section> --%>
 	<section>
 		<div class="jumbotron">
 			<div class="container">
-				<h2 class="alert alert-danger">There is no product found with
-					the Product id ${invalidProductId}</h2>
+				<h2 class="alert alert-danger">
+					<spring:message code="productNotFound.jumbotron.alert" />
+					${invalidProductId}
+				</h2>
 			</div>
 		</div>
 	</section>
@@ -28,7 +36,8 @@
 			<p>
 				<a href="<spring:url value="/market/products" />"
 					class="btn btn-primary"> <span
-					class="glyphicon-hand-left glyphicon"></span> Products
+					class="glyphicon-hand-left glyphicon"></span> <spring:message
+						code="productNotFound.btn.a" />
 				</a>
 			</p>
 		</div>

@@ -13,6 +13,12 @@
 </head>
 <body>
 	<section>
+		<div class="pull-right" style="padding-right: 50px">
+			<a href="?language=ru">Русский</a>|<a href="?language=en">English</a>|<a
+				href="?language=nl">Nederlands</a>
+		</div>
+	</section>
+	<section>
 		<div class="jumbotron">
 			<div class="container">
 				<h1>
@@ -112,8 +118,8 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-lg-2 col-lg-2" for="productImage"> <spring:message
-							code="addProduct.form.productImage.label" />
+					<label class="control-label col-lg-2 col-lg-2" for="productImage">
+						<spring:message code="addProduct.form.productImage.label" />
 					</label>
 					<div class="col-lg-10">
 						<form:input id="productImage" path="productImage" type="file"
@@ -121,8 +127,8 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-lg-2 col-lg-2" for="productManual"> <spring:message
-							code="addProduct.form.productManual.label" />
+					<label class="control-label col-lg-2 col-lg-2" for="productManual">
+						<spring:message code="addProduct.form.productManual.label" />
 					</label>
 					<div class="col-lg-10">
 						<form:input id="productManual" path="productManual" type="file"
@@ -132,7 +138,7 @@
 				<div class="form-group">
 					<div class="col-lg-offset-2 col-lg-10">
 						<input type="submit" id="btnAdd" class="btn btn-primary"
-							value="Add" />
+							value=<spring:message code="addProduct.form.add.input" /> />
 					</div>
 				</div>
 			</fieldset>
