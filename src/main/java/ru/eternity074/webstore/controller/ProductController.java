@@ -29,6 +29,7 @@ import ru.eternity074.webstore.entity.Product;
 import ru.eternity074.webstore.exception.NoProductsFoundUnderCategoryException;
 import ru.eternity074.webstore.exception.ProductNotFoundException;
 import ru.eternity074.webstore.service.ProductService;
+import ru.eternity074.webstore.validator.UnitsInStockValidator;
 
 @Controller
 @RequestMapping("market")
@@ -36,6 +37,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+
+	@Autowired
+	private UnitsInStockValidator unitsInStockValidator;
 
 	@GetMapping("/products")
 	public String list(Model model) {
@@ -113,7 +117,7 @@ public class ProductController {
 		if (result.hasErrors()) {
 			return "addProduct";
 		}
-		
+
 		if (suppressedFields.length > 0) {
 			throw new RuntimeException("Attempting to bind disallowed fields: "
 					+ StringUtils.arrayToCommaDelimitedString(suppressedFields));
@@ -155,6 +159,7 @@ public class ProductController {
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category",
 				"unitsInStock", "condition", "productImage", "productManual", "language");
+		binder.setValidator(unitsInStockValidator);
 	}
 
 //	@InitBinder
