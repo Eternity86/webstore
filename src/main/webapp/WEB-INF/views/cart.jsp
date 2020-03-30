@@ -34,9 +34,10 @@
 			data-ng-init="initCartId('${cartId}')">
 			<div>
 				<a class="btn btn-danger pull-left" data-ng-click="clearCart()">
-					<span class="glyphicon glyphicon-remove-sign"></span> Clear Cart
-				</a> <a href="#" class="btn btn-success pull-right"> <span
-					class="glyphicon-shopping-cart glyphicon"></span> Check out
+					<span class="glyphicon glyphicon-remove-sign"></span> Clear cart
+				</a> <a href="<spring:url value="/checkout?cartId=${cartId}"/>"
+					class="btn btn-success pull-right"> <span
+					class="glyphicon-shopping-cart glyphicon"></span> Checkout
 				</a>
 			</div>
 			<table class="table table-hover">
