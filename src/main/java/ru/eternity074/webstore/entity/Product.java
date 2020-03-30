@@ -3,12 +3,19 @@ package ru.eternity074.webstore.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ru.eternity074.webstore.validator.ProductId;
 
 @XmlRootElement
 public class Product implements Serializable {
@@ -18,9 +25,18 @@ public class Product implements Serializable {
 	 */
 	private static final long serialVersionUID = 1204956151567522799L;
 
+	@Pattern(regexp = "P[1-9]+", message = "{Pattern.Product.productId.validation}")
+	@ProductId
 	private String productId;
+	
+	@Size(min = 3, max = 50, message = "{Size.Product.name.validation}")
 	private String name;
+	
+	@Min(value = 0, message = "{Min.Product.unitPrice.validation}")
+	@Digits(integer = 8, fraction = 2, message = "{Digits.Product.unitPrice.validation}")
+	@NotNull(message = "{NotNull.Product.unitPrice.validation}")
 	private BigDecimal unitPrice;
+	
 	private String description;
 	private String manufacturer;
 	private String category;

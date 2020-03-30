@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -57,7 +61,7 @@ public class WebAppConfig implements WebMvcConfigurer {
 
 		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
 		localeChangeInterceptor.setParamName("language");
-		
+
 		registry.addInterceptor(localeChangeInterceptor);
 		registry.addInterceptor(promoCodeInterceptor()).addPathPatterns("/**/market/products/specialOffer");
 	}
@@ -70,6 +74,28 @@ public class WebAppConfig implements WebMvcConfigurer {
 		resolver.setSuffix(".jsp");
 
 		return resolver;
+	}
+
+	@Bean
+	public MessageSource messageSource() {
+		ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
+		resource.setBasename("messages");
+
+		return resource;
+	}
+
+	@Bean(name = "validator")
+	public LocalValidatorFactoryBean validator() {
+		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+		bean.setValidationMessageSource(messageSource());
+
+		return bean;
+	}
+
+	@Override
+	public Validator getValidator() {
+		// TODO Auto-generated method stub
+		return validator();
 	}
 
 	@Bean

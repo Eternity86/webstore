@@ -30,11 +30,4 @@ public class AppContext {
 		return new NamedParameterJdbcTemplate(ds());
 	}
 
-	@Bean
-	public MessageSource messageSource() {
-		ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
-		resource.setBasename("messages");
-
-		return resource;
-	}
 }

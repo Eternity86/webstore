@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -103,12 +104,16 @@ public class ProductController {
 	}
 
 	@PostMapping("/products/add")
-	public String processAddNewProductForm(@ModelAttribute("newProduct") Product newProduct, BindingResult result,
-			HttpServletRequest request) {
+	public String processAddNewProductForm(@ModelAttribute("newProduct") @Valid Product newProduct,
+			BindingResult result, HttpServletRequest request) {
 		String fileSeparator = System.getProperty("file.separator");
 		String[] suppressedFields = result.getSuppressedFields();
 		String rootDirectory = request.getSession().getServletContext().getRealPath(fileSeparator);
 
+		if (result.hasErrors()) {
+			return "addProduct";
+		}
+		
 		if (suppressedFields.length > 0) {
 			throw new RuntimeException("Attempting to bind disallowed fields: "
 					+ StringUtils.arrayToCommaDelimitedString(suppressedFields));
