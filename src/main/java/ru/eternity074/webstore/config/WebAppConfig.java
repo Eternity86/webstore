@@ -13,6 +13,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.view.xml.MarshallingView;
 import org.springframework.web.util.UrlPathHelper;
 
 import ru.eternity074.webstore.entity.Product;
+import ru.eternity074.webstore.interceptor.ProcessingTimeLogInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -43,6 +45,11 @@ public class WebAppConfig implements WebMvcConfigurer {
 		configurer.setUrlPathHelper(urlPathHelper);
 	}
 
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new ProcessingTimeLogInterceptor());
+	}
+
 	@Bean
 	public InternalResourceViewResolver getInternalResourceViewResolver() {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -58,27 +65,27 @@ public class WebAppConfig implements WebMvcConfigurer {
 		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
 		resolver.setDefaultEncoding("utf-8");
 		resolver.setMaxUploadSize(10_240_000);
-		
+
 		return resolver;
 	}
-	
+
 	@Bean
 	public MappingJackson2JsonView jsonView() {
 		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
 		jsonView.setPrettyPrint(true);
-		
+
 		return jsonView;
 	}
-	
+
 	@Bean
 	public MarshallingView xmlView() {
 		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
 		marshaller.setClassesToBeBound(Product.class);
 		MarshallingView xmlView = new MarshallingView(marshaller);
-		
+
 		return xmlView;
 	}
-	
+
 	@Bean
 	public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
 		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
@@ -87,7 +94,7 @@ public class WebAppConfig implements WebMvcConfigurer {
 		views.add(jsonView());
 		views.add(xmlView());
 		resolver.setDefaultViews(views);
-		
+
 		return resolver;
 	}
 
