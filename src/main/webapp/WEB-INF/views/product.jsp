@@ -14,7 +14,8 @@
 	<section>
 		<div class="pull-right" style="padding-right: 50px">
 			<a href="?language=ru">Русский</a>|<a href="?language=en">English</a>|<a
-				href="?language=nl">Nederlands</a>
+				href="?language=nl">Nederlands</a> <a
+				href="<c:url value="/logout" />">Logout</a>
 		</div>
 	</section>
 	<section>
