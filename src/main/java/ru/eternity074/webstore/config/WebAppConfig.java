@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
@@ -30,6 +31,7 @@ import org.springframework.web.util.UrlPathHelper;
 
 import ru.eternity074.webstore.entity.Product;
 import ru.eternity074.webstore.interceptor.ProcessingTimeLogInterceptor;
+import ru.eternity074.webstore.interceptor.PromoCodeInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -52,10 +54,12 @@ public class WebAppConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new ProcessingTimeLogInterceptor());
-		
+
 		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
 		localeChangeInterceptor.setParamName("language");
+		
 		registry.addInterceptor(localeChangeInterceptor);
+		registry.addInterceptor(promoCodeInterceptor()).addPathPatterns("/**/market/products/specialOffer");
 	}
 
 	@Bean
@@ -74,6 +78,16 @@ public class WebAppConfig implements WebMvcConfigurer {
 		resolver.setDefaultLocale(new Locale("ru"));
 
 		return resolver;
+	}
+
+	@Bean
+	public HandlerInterceptor promoCodeInterceptor() {
+		PromoCodeInterceptor promoCodeInterceptor = new PromoCodeInterceptor();
+		promoCodeInterceptor.setPromoCode("OFF3R");
+		promoCodeInterceptor.setOfferRedirect("market/products");
+		promoCodeInterceptor.setErrorRedirect("invalidPromoCode");
+
+		return promoCodeInterceptor;
 	}
 
 	@Bean
