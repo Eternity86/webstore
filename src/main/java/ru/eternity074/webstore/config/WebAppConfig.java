@@ -1,8 +1,10 @@
 package ru.eternity074.webstore.config;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +38,8 @@ import org.springframework.web.util.UrlPathHelper;
 import ru.eternity074.webstore.entity.Product;
 import ru.eternity074.webstore.interceptor.ProcessingTimeLogInterceptor;
 import ru.eternity074.webstore.interceptor.PromoCodeInterceptor;
+import ru.eternity074.webstore.validator.ProductValidator;
+import ru.eternity074.webstore.validator.UnitsInStockValidator;
 
 @Configuration
 @EnableWebMvc
@@ -94,8 +98,17 @@ public class WebAppConfig implements WebMvcConfigurer {
 
 	@Override
 	public Validator getValidator() {
-		// TODO Auto-generated method stub
 		return validator();
+	}
+
+	@Bean
+	public ProductValidator productValidator() {
+		Set<Validator> springValidators = new HashSet<>();
+		springValidators.add(new UnitsInStockValidator());
+		ProductValidator productValidator = new ProductValidator();
+		productValidator.setSpringValidators(springValidators);
+		
+		return productValidator;
 	}
 
 	@Bean

@@ -29,7 +29,7 @@ import ru.eternity074.webstore.entity.Product;
 import ru.eternity074.webstore.exception.NoProductsFoundUnderCategoryException;
 import ru.eternity074.webstore.exception.ProductNotFoundException;
 import ru.eternity074.webstore.service.ProductService;
-import ru.eternity074.webstore.validator.UnitsInStockValidator;
+import ru.eternity074.webstore.validator.ProductValidator;
 
 @Controller
 @RequestMapping("market")
@@ -39,7 +39,7 @@ public class ProductController {
 	private ProductService productService;
 
 	@Autowired
-	private UnitsInStockValidator unitsInStockValidator;
+	private ProductValidator productValidator;
 
 	@GetMapping("/products")
 	public String list(Model model) {
@@ -159,7 +159,7 @@ public class ProductController {
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category",
 				"unitsInStock", "condition", "productImage", "productManual", "language");
-		binder.setValidator(unitsInStockValidator);
+		binder.setValidator(productValidator);
 	}
 
 //	@InitBinder
