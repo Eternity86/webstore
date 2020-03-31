@@ -17,11 +17,11 @@
 <script src="/webstore/js/angular-1.7.9/angular-route.js"></script>
 <script src="/webstore/js/angular-1.7.9/angular-resource.js"></script> --%>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-resource.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-resource.min.js"></script>
 <script src="/webstore/js/controllers.js"></script>
 <title><tiles:insertAttribute name="title" /></title>
 </head>
