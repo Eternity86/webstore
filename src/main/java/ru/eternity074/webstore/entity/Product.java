@@ -43,7 +43,7 @@ public class Product implements Serializable {
 	private long unitsInStock;
 	private long unitsInOrder;
 	private boolean discontinued;
-	private String condition;
+	private String productCondition;
 	@JsonIgnore
 	private MultipartFile productImage;
 	@JsonIgnore
@@ -133,12 +133,12 @@ public class Product implements Serializable {
 		this.discontinued = discontinued;
 	}
 
-	public String getCondition() {
-		return condition;
+	public String getProductCondition() {
+		return productCondition;
 	}
 
-	public void setCondition(String condition) {
-		this.condition = condition;
+	public void setProductCondition(String condition) {
+		this.productCondition = condition;
 	}
 
 	@XmlTransient

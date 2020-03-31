@@ -13,16 +13,17 @@
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<%-- <script src="/webstore/js/angular-1.7.9/angular.js"></script>
-<script src="/webstore/js/angular-1.7.9/angular-route.js"></script>
-<script src="/webstore/js/angular-1.7.9/angular-resource.js"></script> --%>
+<script>var base = "${pageContext.request.contextPath}";</script>
+<%-- <script src="/${pageContext.request.contextPath}/js/angular-1.7.9/angular.js"></script>
+<script src="/${pageContext.request.contextPath}/js/angular-1.7.9/angular-route.js"></script>
+<script src="/${pageContext.request.contextPath}/js/angular-1.7.9/angular-resource.js"></script> --%>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-resource.min.js"></script>
-<script src="/webstore/js/controllers.js"></script>
+<script src="${pageContext.request.contextPath}/js/controllers.js"></script>
 <title><tiles:insertAttribute name="title" /></title>
 </head>
 <body>

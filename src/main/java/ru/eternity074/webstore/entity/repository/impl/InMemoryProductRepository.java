@@ -25,7 +25,7 @@ public class InMemoryProductRepository implements ProductRepository {
 	@Override
 	public List<Product> getAllProducts() {
 		Map<String, Object> params = new HashMap<>();
-		List<Product> result = jdbcTemplate.query("SELECT * FROM products", params, new ProductMapper());
+		List<Product> result = jdbcTemplate.query("SELECT * FROM PRODUCTS", params, new ProductMapper());
 
 		return result;
 	}
@@ -50,7 +50,7 @@ public class InMemoryProductRepository implements ProductRepository {
 			product.setUnitPrice(rs.getBigDecimal("UNIT_PRICE"));
 			product.setManufacturer(rs.getString("MANUFACTURER"));
 			product.setCategory(rs.getString("CATEGORY"));
-			product.setCondition(rs.getString("CONDITION"));
+			product.setProductCondition(rs.getString("PRODUCT_CONDITION"));
 			product.setUnitsInStock(rs.getLong("UNITS_IN_STOCK"));
 			product.setUnitsInOrder(rs.getLong("UNITS_IN_ORDER"));
 			product.setDiscontinued(rs.getBoolean("DISCONTINUED"));
@@ -92,7 +92,7 @@ public class InMemoryProductRepository implements ProductRepository {
 	@Override
 	public void addProduct(Product product) {
 		String SQL = "INSERT INTO PRODUCTS (" + "ID, " + "NAME," + "DESCRIPTION," + "UNIT_PRICE," + "MANUFACTURER,"
-				+ "CATEGORY," + "CONDITION," + "UNITS_IN_STOCK," + "UNITS_IN_ORDER," + "DISCONTINUED) "
+				+ "CATEGORY," + "PRODUCT_CONDITION," + "UNITS_IN_STOCK," + "UNITS_IN_ORDER," + "DISCONTINUED) "
 				+ "VALUES (:id, :name, :desc, :price, " + ":manufacturer, :category, :condition, "
 				+ ":inStock, :inOrder, :discontinued)";
 		Map<String, Object> params = new HashMap<>();
@@ -102,7 +102,7 @@ public class InMemoryProductRepository implements ProductRepository {
 		params.put("price", product.getUnitPrice());
 		params.put("manufacturer", product.getManufacturer());
 		params.put("category", product.getCategory());
-		params.put("condition", product.getCondition());
+		params.put("condition", product.getProductCondition());
 		params.put("inStock", product.getUnitsInStock());
 		params.put("inOrder", product.getUnitsInOrder());
 		params.put("discontinued", product.isDiscontinued());

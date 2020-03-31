@@ -84,14 +84,14 @@
 					</div>
 				</div> --%>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="condition"><spring:message
-						code="addProduct.form.condition.label" /></label>
+				<label class="control-label col-lg-2 col-lg-2" for="productCondition"><spring:message
+						code="addProduct.form.productCondition.label" /></label>
 				<div class="col-lg-10">
-					<form:radiobutton path="condition" value="New" />
+					<form:radiobutton path="productCondition" value="New" />
 					<spring:message code="addProduct.form.new.radiobutton" />
-					<form:radiobutton path="condition" value="Old" />
+					<form:radiobutton path="productCondition" value="Old" />
 					<spring:message code="addProduct.form.old.radiobutton" />
-					<form:radiobutton path="condition" value="Refurbished" />
+					<form:radiobutton path="productCondition" value="Refurbished" />
 					<spring:message code="addProduct.form.refurbished.radiobutton" />
 				</div>
 			</div>

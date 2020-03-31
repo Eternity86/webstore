@@ -18,7 +18,7 @@ public class CartItemTest {
 	@Test
 	public void cartItem_total_price_should_be_equal_to_product_unit_price_in_case_of_single_quantity() {
 		// Arrange
-		Product iphone = new Product("P1234", "iPhone 5s", new BigDecimal(500));
+		Product iphone = new Product("P1234", "iPhone X Max", new BigDecimal(0));
 		cartItem.setProduct(iphone);
 		// Act
 		BigDecimal totalPrice = cartItem.getTotalPrice();

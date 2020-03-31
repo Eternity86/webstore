@@ -6,8 +6,11 @@
 
 	<!-- Copyright -->
 	<div class="footer-copyright text-center py-3">
-		<%-- Copyright &copy; --%>2020-<script type="text/javascript">document.write(new Date().getFullYear());</script>
-		: <a href="https://eternity074.ru/"> Eternity074.ru</a>
+		<a href="http://eternity074.ru/"> Eternity074.ru</a> :
+		<%-- Copyright &copy; --%>
+		2020-<script type="text/javascript">
+			document.write(new Date().getFullYear());
+		</script>
 	</div>
 	<!-- Copyright -->
 

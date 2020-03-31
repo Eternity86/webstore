@@ -4,16 +4,57 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ru.eternity074</groupId>
 	<artifactId>webstore</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.14</version>
 	<packaging>war</packaging>
 	<properties>
 		<spring.version>5.2.5.RELEASE</spring.version>
+		<hibernate.version>5.2.18.Final</hibernate.version>
+		<hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
 		<spring-security.version>5.3.0.RELEASE</spring-security.version>
+		<spring-webflow.version>2.5.1.RELEASE</spring-webflow.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
+		<jstl.version>1.2</jstl.version>
+		<servlet-api.version>3.1.0</servlet-api.version>
+		<tiles.version>3.0.8</tiles.version>
+		<mariadb-java-client.version>2.6.0</mariadb-java-client.version>
 		<tomcat-el.version>9.0.31</tomcat-el.version>
+		<maven-compiler.version>3.8.1</maven-compiler.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<finName>${project.artifactId}-test</finName>
+				<hibernateShowSql>true</hibernateShowSql>
+				<appScope>dev</appScope>
+			</properties>
+		</profile>
+		<profile>
+			<id>test-eternity074</id>
+			<properties>
+				<finName>${project.artifactId}-test##test</finName>
+				<deployServer>test-deploy</deployServer>
+				<hibernateShowSql>false</hibernateShowSql>
+				<appScope>test</appScope>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod-eternity074</id>
+			<properties>
+				<finName>${project.artifactId}##${project.version}</finName>
+				<deployServer>release-deploy</deployServer>
+				<hibernateShowSql>false</hibernateShowSql>
+				<appScope>prod</appScope>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -48,19 +89,36 @@
 		<dependency>
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>spring-webflow</artifactId>
-			<version>2.5.1.RELEASE</version>
+			<version>${spring-webflow.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-extras -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-extras</artifactId>
-			<version>3.0.8</version>
+			<version>${tiles.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+		<dependency>
+		    <groupId>org.mariadb.jdbc</groupId>
+		    <artifactId>mariadb-java-client</artifactId>
+		    <version>${mariadb-java-client.version}</version>
+		</dependency>
+		<!-- Hibernate 5 dependencies -->
+	    <dependency>
+	        <groupId>org.hibernate</groupId>
+	        <artifactId>hibernate-core</artifactId>
+	        <version>${hibernate.version}</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.hibernate</groupId>
+	        <artifactId>hibernate-c3p0</artifactId>
+	        <version>${hibernate.version}</version>
+	    </dependency>
 		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>6.1.2.Final</version>
+			<version>${hibernate-validator.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
@@ -79,13 +137,13 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<version>${jstl.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
+			<version>${servlet-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- JAXB API -->
@@ -161,6 +219,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>${finName}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -168,6 +227,24 @@
 				<version>3.2.3</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<server>${deployServer}</server>
+					<url>${deployUrl}</url>
+					<path>/${finName}</path>
 				</configuration>
 			</plugin>
 		</plugins>
