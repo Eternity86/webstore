@@ -7,6 +7,7 @@
 	<version>0.0.14</version>
 	<packaging>war</packaging>
 	<properties>
+		<java.version>11</java.version>
 		<spring.version>5.2.5.RELEASE</spring.version>
 		<hibernate.version>5.2.18.Final</hibernate.version>
 		<hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
@@ -19,8 +20,8 @@
 		<mariadb-java-client.version>2.6.0</mariadb-java-client.version>
 		<tomcat-el.version>9.0.31</tomcat-el.version>
 		<maven-compiler.version>3.8.1</maven-compiler.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
